@@ -1,0 +1,25 @@
+{
+  "name": "surel",
+  "version": "1.0.0",
+  "description": "Send email through multiple services",
+  "main": "index.js",
+  "scripts": {
+    "test": "jest"
+  },
+  "author": "Dhi Aurrahman <diorahman@rockybars.com>",
+  "license": "MIT",
+  "devDependencies": {
+    "jest": "^20.0.4"
+  },
+  "dependencies": {
+    "addressparser": "^1.0.1",
+    "bull": "^3.0.0-rc.3",
+    "debug": "^2.6.8",
+    "dotenv": "^4.0.0",
+    "mailgun.js": "^2.0.1",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1",
+    "sendgrid": "^5.1.1",
+    "uuid": "^3.1.0"
+  }
+}

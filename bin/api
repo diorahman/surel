@@ -1,0 +1,7 @@
+#!/usr/bin/env node
+
+require('dotenv').load()
+const routes = require('../http/Api/Routes')
+const { boot } = require('../http/Api/Server')
+
+boot(routes, process.env.PORT || 3000)

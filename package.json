@@ -4,18 +4,27 @@
   "description": "Send email through multiple services",
   "main": "index.js",
   "scripts": {
-    "test": "jest"
+    "test": "ava"
+  },
+  "ava": {
+    "serial": true,
+    "verbose": true,
+    "failFast": true
   },
   "author": "Dhi Aurrahman <diorahman@rockybars.com>",
   "license": "MIT",
   "devDependencies": {
-    "jest": "^20.0.4"
+    "ava": "^0.20.0",
+    "supertest": "^3.0.0"
   },
   "dependencies": {
     "addressparser": "^1.0.1",
     "bull": "^3.0.0-rc.3",
     "debug": "^2.6.8",
     "dotenv": "^4.0.0",
+    "koa": "^2.3.0",
+    "koa-bodyparser": "^4.2.0",
+    "koa-router": "^7.2.1",
     "mailgun.js": "^2.0.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",

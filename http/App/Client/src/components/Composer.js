@@ -1,4 +1,5 @@
-import { h, Component } from 'preact';
+import { h, Component } from 'preact'
+import { route } from 'preact-router'
 
 export class Composer extends Component {
   constructor (props) {
@@ -13,7 +14,9 @@ export class Composer extends Component {
       fromIsValid: true,
       toIsValid: true,
       subjectIsValid: true,
-      isValid: false
+      isValid: true,
+
+      sending: false
     }
   }
 
@@ -44,6 +47,8 @@ export class Composer extends Component {
     event.preventDefault()
     const {from, to, subject, body} = this.state
 
+    this.setState({sending: true})
+
     fetch('/v1/email/send', {
       method: 'POST',
       headers: {
@@ -52,7 +57,10 @@ export class Composer extends Component {
       body: JSON.stringify({from, to, subject, body})
     })
     .then(res => res.json())
-    .then(data => console.log(data))
+    .then(data => {
+      route(`/receipt/${btoa(JSON.stringify(data))}`)
+      this.setState({ sending: false })
+    })
   }
 
   checkValidity () {
@@ -62,19 +70,17 @@ export class Composer extends Component {
     })
   }
 
-  render({}, {from, to, subject, fromIsValid, toIsValid, subjectIsValid, isValid}) {
+  render({}, {from, to, subject, body, sending, fromIsValid, toIsValid, subjectIsValid, isValid}) {
     return (
       <div>
         <p>Or, compose an email</p>
         <form onSubmit={(event) => this.onSubmit(event)}>
-          <input type="text" className={fromIsValid ? '' : 'invalid'} onInput={(event) => this.onFromChange(event)} placeholder="from, e.g. diorahman@gmail.com" />
-          <br />
-          <input type="text" className={toIsValid ? '' : 'invalid'} onInput={(event) => this.onToChange(event)} placeholder="to, e.g. diorahman@gmail.com, dio@hooq.tv" />
-          <input type="text" className={subjectIsValid ? '' : 'invalid'} onInput={(event) => this.onSubjectChange(event)} placeholder="e.g. Hello! This is me" />
-          <textarea onInput={event => this.onBodyChange(event)} placeholder="e.g. Lorem ipsum, <b>OK!</b>" />
-          <br />
-          <input type="submit" disabled={!isValid} value="Send" />
-        </form>
+          <input type="text" disabled={sending} value={from} className={fromIsValid ? '' : 'invalid'} onInput={(event) => this.onFromChange(event)} placeholder="from, e.g. diorahman@gmail.com" />
+          <input type="text" disabled={sending} value={to} className={toIsValid ? '' : 'invalid'} onInput={(event) => this.onToChange(event)} placeholder="to, e.g. diorahman@gmail.com, dio@hooq.tv" />
+          <input type="text" disabled={sending} value={subject} className={subjectIsValid ? '' : 'invalid'} onInput={(event) => this.onSubjectChange(event)} placeholder="e.g. Hello! This is me" />
+          <textarea value={body} disabled={sending} onInput={event => this.onBodyChange(event)} placeholder="e.g. Lorem ipsum, <b>OK!</b>" />
+          <input type="submit" disabled={!isValid || sending} value="Send" />
+      </form>
       </div>
     )
   }

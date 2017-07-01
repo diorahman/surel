@@ -46,9 +46,8 @@ class Api {
     try {
       await next()
     } catch (error) {
-      ctx.json({
-        requestId: ctx.requestId
-      }, 500)
+      const statusCode = Number(error.info.statusCode) || 500
+      ctx.json({errors: [ error.info ], id: ctx.requestId}, statusCode)
     }
   }
 

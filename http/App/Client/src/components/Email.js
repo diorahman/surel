@@ -12,24 +12,24 @@ export class Profile extends Component {
   }
   componentDidMount () {
     fetch(`https://api.github.com/users/${this.props.id}`)
-        .then(resp => resp.json())
-        .then(user => {
-          this.setState({
-            user,
-            loading: false
-          })
+      .then(resp => resp.json())
+      .then(user => {
+        this.setState({
+          user,
+          loading: false
         })
-        .catch(err => console.error(err))
+      })
+      .catch(err => console.error(err))
   }
   render({}, {loading, user}) {
     return (
-        <div class="app">
-          {loading
-              ? <p>Fetching...</p>
-              : <User image={user.avatar_url}
-                      name={user.name} />
-          }
-        </div>
+      <div class="app">
+      {loading
+        ? <p>Fetching...</p>
+        : <User image={user.avatar_url}
+        name={user.name} />
+      }
+      </div>
     )
   }
 }

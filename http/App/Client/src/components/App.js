@@ -1,7 +1,7 @@
 import { h, Component } from 'preact'
 import { Router } from 'preact-router'
 import Home from './Home'
-import Email from './Email'
+import Receipt from './Receipt'
 import Error from './Error'
 
 export class App extends Component {
@@ -10,7 +10,7 @@ export class App extends Component {
       <div class="app">
         <Router>
           <Home path="/" />
-          <Email path="/email/:id" />
+          <Receipt path="/receipt/:id" />
           <Error default />
         </Router>
       </div>

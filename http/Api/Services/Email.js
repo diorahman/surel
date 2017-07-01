@@ -29,6 +29,9 @@ exports.send = function (data, service = Sender.Service.SENDGRID) {
     // better than this.
     queue.once(`${email.id}-completed`, (job, result) => {
       // Check for error
+      if (result instanceof Error) {
+        return reject(result)
+      }
       resolve(result)
     })
   })

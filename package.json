@@ -4,7 +4,11 @@
   "description": "Send email through multiple services",
   "main": "index.js",
   "scripts": {
-    "test": "ava"
+    "test": "ava",
+    "build": "webpack",
+    "dev": "webpack-dev-server --inline",
+    "app": "npm run build && ./bin/app",
+    "api": "./bin/api"
   },
   "ava": {
     "serial": true,
@@ -15,16 +19,26 @@
   "license": "MIT",
   "devDependencies": {
     "ava": "^0.20.0",
-    "supertest": "^3.0.0"
+    "babel-core": "^6.25.0",
+    "babel-loader": "^7.1.1",
+    "babel-plugin-transform-react-jsx": "^6.24.1",
+    "babel-preset-env": "^1.5.2",
+    "preact": "^8.1.0",
+    "preact-router": "^2.5.2",
+    "supertest": "^3.0.0",
+    "webpack": "^3.0.0",
+    "webpack-dev-server": "^2.5.0"
   },
   "dependencies": {
     "addressparser": "^1.0.1",
     "bull": "^3.0.0-rc.3",
+    "cpy": "^5.0.0",
     "debug": "^2.6.8",
     "dotenv": "^4.0.0",
     "koa": "^2.3.0",
     "koa-bodyparser": "^4.2.0",
     "koa-router": "^7.2.1",
+    "koa-static": "^3.0.0",
     "mailgun.js": "^2.0.1",
     "request": "^2.81.0",
     "request-promise": "^4.2.1",

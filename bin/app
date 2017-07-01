@@ -1,0 +1,13 @@
+#!/usr/bin/env node
+
+require('dotenv').load()
+const copy = require('cpy')
+const path = require('path')
+const routes = require('../http/App/Routes')
+const { boot } = require('../http/App/Server')
+
+copy([path.join(__dirname, '..', 'http', 'App', 'Client', 'src', 'index.html')],
+  path.join(__dirname, '..', 'http', 'App', 'Client', 'dist')
+).then(() => {
+  boot(routes, process.env.APP_PORT || 8000)
+})

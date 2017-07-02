@@ -16,7 +16,9 @@ export class Composer extends Component {
       subjectIsValid: true,
       isValid: true,
 
-      sending: false
+      sending: false,
+      service: 'mandrill',
+      fallback: false
     }
   }
 
@@ -45,7 +47,7 @@ export class Composer extends Component {
 
   onSubmit (event) {
     event.preventDefault()
-    const {from, to, subject, body} = this.state
+    const {from, to, subject, body, service, fallback} = this.state
 
     this.setState({sending: true})
 
@@ -54,7 +56,7 @@ export class Composer extends Component {
       headers: {
         'Content-Type': 'application/json'
       },
-      body: JSON.stringify({from, to, subject, body})
+      body: JSON.stringify({from, to, subject, body, service, fallback})
     })
     .then(res => res.json())
     .then(data => {
@@ -70,7 +72,7 @@ export class Composer extends Component {
     })
   }
 
-  render({}, {from, to, subject, body, sending, fromIsValid, toIsValid, subjectIsValid, isValid}) {
+  render({}, {from, to, subject, body, sending, fromIsValid, toIsValid, subjectIsValid, isValid, fallback, service}) {
     return (
       <div>
         <p>Or, compose an email</p>
@@ -79,6 +81,15 @@ export class Composer extends Component {
           <input type="text" disabled={sending} value={to} className={toIsValid ? '' : 'invalid'} onInput={(event) => this.onToChange(event)} placeholder="to, e.g. diorahman@gmail.com, dio@hooq.tv" />
           <input type="text" disabled={sending} value={subject} className={subjectIsValid ? '' : 'invalid'} onInput={(event) => this.onSubjectChange(event)} placeholder="e.g. Hello! This is me" />
           <textarea value={body} disabled={sending} onInput={event => this.onBodyChange(event)} placeholder="e.g. Lorem ipsum, <b>OK!</b>" />
+          <select value={service} onChange={event => { this.setState({service: event.target.value}) }}>
+            <option value="mandrill">Mandrill</option>
+            <option value="sendgrid">Sendgrid</option>
+            <option value="mailgun">Mailgun</option>
+          </select>
+          <select value={fallback ? 'fallback' : 'none'} onChange={event => { this.setState({fallback: event.target.value === 'fallback'}) } }>
+            <option value="none">None</option>
+            <option value="fallback">Fallback</option>
+          </select>
           <input type="submit" disabled={!isValid || sending} value="Send" />
       </form>
       </div>
